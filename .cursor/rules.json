@@ -1,0 +1,191 @@
+{
+  "language": "mixed",
+  "framework": "monorepo",
+  "project_structure": {
+    "app-web": "Next.js frontend application",
+    "api-server": "Express.js backend API",
+    "db-schema": "Database schema and migrations",
+    "aws-infrastructure": "AWS CDK infrastructure code"
+  },
+  "ai_behavior": {
+    "understand_context": "Always understand which repository you're working in and follow its specific rules.",
+    "cross_repository_coordination": "When changes span multiple repositories, coordinate them properly.",
+    "commit_message_style": "Extremely brief, in the simplest form possible.",
+    "prioritize_consistency": "Maintain consistency across all repositories.",
+    "ask_before_generating_scripts": "Always ask 'yes or no' before generating scripts or test scripts.",
+    "ask_before_generating_docs": "Always ask 'yes or no' before generating summary documents or help and readme documents.",
+    "no_automatic_builds": "Do not run build commands (npm run build, npx tsc, etc.) after making changes unless specifically requested by the user.",
+    "no_server_startup": "Do not start development servers (npm run dev, npm run start:local, etc.) unless the user explicitly requests it. Assume servers are already running.",
+    "server_running": "User has dev server running with hot reload - DO NOT start/stop server",
+    "standards_location": "All development standards are defined in /Users/maureen/code/STANDARDS.md - refer to this file for API rules, functional programming patterns, naming conventions, and code review guidelines."
+  },
+  "definitions": {
+    "monorepo": {
+      "description": "A repository containing multiple related projects",
+      "components": [
+        "app-web: Frontend React/Next.js application",
+        "api-server: Backend Express.js API",
+        "db-schema: Database schema and Liquibase migrations",
+        "aws-infrastructure: AWS CDK infrastructure code"
+      ]
+    },
+    "cross_repository_change": {
+      "description": "A change that affects multiple repositories",
+      "example": "Adding a new feature that requires frontend, backend, and database changes"
+    }
+  },
+  "related": {
+    "Frontend changes often require backend API changes": {
+      "from": "app-web/src/api/",
+      "to": "api-server/src/routes/"
+    },
+    "Backend changes often require database schema changes": {
+      "from": "api-server/src/dao/",
+      "to": "db-schema/liquibase/changelogs/"
+    },
+    "Infrastructure changes may affect all components": {
+      "from": "aws-infrastructure/lib/",
+      "to": "all repositories"
+    }
+  },
+  "generation": {
+    "cross_repository_feature": [
+      "Identify all repositories that need changes.",
+      "Plan the changes in the correct order.",
+      "Ensure compatibility between repositories.",
+      "Test the complete feature across all repositories."
+    ],
+    "new_repository_setup": [
+      "Follow the existing patterns in other repositories.",
+      "Create appropriate rules.json file.",
+      "Set up proper project structure.",
+      "Include necessary documentation."
+    ]
+  },
+  "docs": {
+    "Monorepo Best Practices": "https://monorepo.tools/",
+    "Workspace Management": "https://docs.npmjs.com/cli/v7/using-npm/workspaces"
+  },
+  "rules": [
+    {
+      "name": "No classes in backend code",
+      "description": "Favor functional programming over class-based structure in Express routes and services.",
+      "severity": "suggestion",
+      "language": ["javascript", "typescript"],
+      "pattern": "class\\s+\\w+",
+      "suggestion": "Use functions and closures instead of classes where possible."
+    },
+    {
+      "name": "Prefer async/await over callbacks or .then()",
+      "description": "Use async/await for asynchronous code readability.",
+      "severity": "warning",
+      "language": ["javascript", "typescript"],
+      "pattern": "\\.then\\(",
+      "suggestion": "Use async/await instead of .then() for cleaner control flow."
+    },
+    {
+      "name": "Use production-appropriate logging",
+      "description": "Avoid console.log/console.error in backend. Use LogUtils or the centralized logging utility instead.",
+      "severity": "warning",
+      "language": ["javascript", "typescript"],
+      "pattern": "console\\.(log|error|warn|debug)",
+      "suggestion": "Replace with LogUtils.<level>() or an approved logging utility."
+    },
+    {
+      "name": "Service functions must be named exports",
+      "description": "All service functions should be named exports, not module objects.",
+      "severity": "error",
+      "language": ["typescript", "javascript"],
+      "pattern": "export\\s+const\\s+\\w+Service\\s*=\\s*\\{",
+      "suggestion": "Convert to named exports: export const functionName = async () => { ... }"
+    },
+    {
+      "name": "RBAC: Require permission middleware on protected routes",
+      "description": "Ensure that protected API routes use RBAC middleware like requirePermission or withRBAC.",
+      "severity": "error",
+      "language": ["typescript"],
+      "pattern": "router\\.(get|post|put|delete)\\([^,]+,[^\\)]*\\)",
+      "suggestion": "Make sure this route uses RBAC middleware (e.g. requirePermission)."
+    },
+    {
+      "name": "Enforce REST patterns",
+      "description": "Backend routes should follow RESTful naming conventions.",
+      "severity": "suggestion",
+      "language": ["javascript", "typescript"],
+      "pattern": "app\\.(get|post|put|delete)\\(['\\\"]/(?!api/)",
+      "suggestion": "Prefix backend routes with /api/ and use plural resource names."
+    },
+    {
+      "name": "RBAC enforcement",
+      "description": "Check user roles/permissions in protected routes.",
+      "severity": "error",
+      "language": ["javascript", "typescript"],
+      "pattern": "app\\.(get|post|put|delete)\\(",
+      "suggestion": "Ensure route has RBAC middleware (e.g., requireRole/requirePermission)."
+    },
+    {
+      "name": "Use accountId instead of userId",
+      "description": "Use accountId and account_id instead of userId and user_id to be consistent with the database schema.",
+      "severity": "error",
+      "language": ["typescript", "javascript", "sql"],
+      "pattern": "\\b(userId|user_id)\\b",
+      "suggestion": "Replace with accountId/account_id."
+    },
+    {
+      "name": "Liquibase migrations only for schema changes",
+      "description": "Do not alter schema directly; use Liquibase changelogs.",
+      "severity": "error",
+      "language": ["sql"],
+      "pattern": "(ALTER\\s+TABLE|CREATE\\s+TABLE)",
+      "suggestion": "Place schema changes in Liquibase migration files."
+    },
+    {
+      "name": "Atomic Design pattern",
+      "description": "Use Atomic Design principles for components: atoms, molecules, organisms, templates, pages.",
+      "severity": "suggestion",
+      "language": ["typescript", "javascript"],
+      "pattern": "",
+      "suggestion": "Place components in appropriate Atomic Design folder."
+    },
+    {
+      "name": "Material UI theming only",
+      "description": "Do not use Tailwind CSS; use Material UI's theme system for styling.",
+      "severity": "error",
+      "language": ["typescript", "javascript", "css"],
+      "pattern": "tailwind",
+      "suggestion": "Use MUI sx props, styled components, or theme overrides."
+    },
+    {
+      "name": "Documentation must include dates",
+      "description": "All documentation files should include creation and update dates.",
+      "severity": "warning",
+      "language": ["markdown", "md"],
+      "pattern": "^(?!.*(Created|Updated|Date|Last modified)).*$",
+      "suggestion": "Add 'Created: YYYY-MM-DD' and 'Updated: YYYY-MM-DD' at the top."
+    },
+    {
+      "name": "No automatic server startup",
+      "description": "Do not start development servers without explicit request.",
+      "severity": "error",
+      "language": ["bash", "shell"],
+      "pattern": "npm\\s+run\\s+(dev|start:local|start)",
+      "suggestion": "Check with the user before starting servers."
+    },
+    {
+      "name": "backend-use-absolute-imports",
+      "description": "Use '@/...' imports instead of relative paths in backend code.",
+      "severity": "error",
+      "language": ["typescript", "javascript"],
+      "pattern": "^@/",
+      "suggestion": "Use '@/...' imports instead of relative paths."
+    },
+    {
+      "name": "Use LogUtils instead of console statements",
+      "description": "Never use console.log, console.warn, or console.error. Always use LogUtils.info, LogUtils.warn, or LogUtils.error for proper logging.",
+      "severity": "error",
+      "language": ["typescript", "javascript"],
+      "pattern": "console\\.(log|warn|error)\\(",
+      "suggestion": "Replace console.log with LogUtils.info, console.warn with LogUtils.warn, and console.error with LogUtils.error. Import LogUtils from '../utils/LogUtils' if needed."
+    }
+  ]
+}

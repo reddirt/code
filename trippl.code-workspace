@@ -1,0 +1,37 @@
+{
+	"folders": [
+		{
+			"name": "api-server",
+			"path": "api-server"
+		},
+		{
+			"name": "app-web",
+			"path": "app-web"
+		},
+		{
+			"name": "db-schema",
+			"path": "db-schema"
+		},
+		{
+			"name": "aws-infrastructure",
+			"path": "aws-infrastructure"
+		},
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"files.exclude": {
+		"**/node_modules": true,
+		"**/.git": true,
+		"**/dist": true,
+		"api-server": true,
+		"app-web": true,
+		"aws-infrastructure": true,
+		"db-schema": true,
+		"website-frontend": true,
+		"MISC": true,
+		"website-frontend.code-workspace": true,
+		}
+	}
+}

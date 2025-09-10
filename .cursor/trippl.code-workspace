@@ -1,0 +1,26 @@
+{
+	"folders": [
+		
+		{
+			"name": "api-server",
+			"path": "api-server"
+		},
+		{
+			"name": "app-web",
+			"path": "app-web"
+		},
+		{
+			"name": "aws-infrastructure",
+			"path": "aws-infrastructure"
+		},
+		{
+			"path": "db-schema"
+		},
+		{
+			"path": ".cursor"
+		},
+		{
+			"path": ".vscode"
+		}
+	]
+}
