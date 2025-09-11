@@ -29,3 +29,11 @@ git push origin main --force
 	•	This rewrites main so it looks like the merges never happened.
 	•	Clean slate for you to redo the changes properly.
 ```
+
+## api calls
+```bash
+$ curl https//localhost:3001/v1/version
+$ curl https://api.staging.trippl.ca/v1/version
+$ curl https://api.dev.trippl.ca/v1/version
+$ curl https://api.app.trippl.ca/v1/version
+```

@@ -93,9 +93,21 @@ flowchart TD
 
 ---
 
-## Release Flow
+## Release Flow (similar for api-server and app-web)
+0. version is in package.json - automanaged.
+1. Develop on branches.
+2. Merge branch to `main` with PR.
+- auto deployment to dev happens
+3. Staging release - click `STAGE` workflow in Github Actions tab.
+- can choose a specific commit or default `HEAD` of main branch
+- a lint, test, package, copy to S3, and `auto-deploy` happens
+- tag is automatically created - RCx suffix.
+- subsequent releases to staging increase the RCx
+4. Production release - click `PROD` workflow in Github Actions tab.
+- choose tag to release. default is `HEAD` of main.
+- enter release notes, release title, and level for next version bump.
+- a lint, test, package, copy to S3, and `auto-deploy` happens
 
-1. Merge all PRs into `main`.
 2. Determine bump type based on **highest-impact merged branch** (feat → minor, fix → patch).
 3. Update version in your repo (`package.json`, `app config`, etc.).
 4. Tag release (ticket IDs stay in branch/PR):
