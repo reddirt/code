@@ -1,3 +1,9 @@
+# common commands
+```bash
+# Rename a branch
+<oldbranch*> $ git branch -m new-branch-name
+```
+
 # clean up a failed release/tag
 Go to GitHub → Releases → delete the release you just created.
 •	Then delete the tag that was created:

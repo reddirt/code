@@ -32,6 +32,7 @@
 		"website-frontend": true,
 		"MISC": true,
 		"website-frontend.code-workspace": true,
+		".DS_Store": true,
 		}
 	}
 }

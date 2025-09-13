@@ -5,3 +5,8 @@ db-schema
 website-frontend
 website-frontend.code-workspace
 MISC
+.DS_Store
+empty.txt
+
+# How to make invisible in Explorer
+#
