@@ -41,5 +41,5 @@ git push origin main --force
 $ curl https//localhost:3001/v1/version
 $ curl https://api.staging.trippl.ca/v1/version
 $ curl https://api.dev.trippl.ca/v1/version
-$ curl https://api.app.trippl.ca/v1/version
+$ curl https://api.plan.trippl.ca/v1/version
 ```
