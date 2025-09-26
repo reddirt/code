@@ -43,3 +43,20 @@ $ curl https://api.staging.trippl.ca/v1/version
 $ curl https://api.dev.trippl.ca/v1/version
 $ curl https://api.plan.trippl.ca/v1/version
 ```
+
+## docker & liquibase
+```bash
+docker ps                      # list processes
+
+# see if we can access changelogs
+docker-compose -f docker-compose-local.yml run --rm liquibase ls /liquibase
+
+docker container prune         # remove all stopped containers
+docker image prune -a          # remove dangling/unused images
+docker-compose -f docker-compose-local.yml run -rm liquibase # run/update liquibase
+
+# check version
+docker-compose -f docker-compose-local.yml run --rm liquibase liquibase --version
+
+```
+

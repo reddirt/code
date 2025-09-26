@@ -33,6 +33,7 @@
 		"MISC": true,
 		"website-frontend.code-workspace": true,
 		".DS_Store": true,
-		}
+		},
+		"postman.settings.dotenv-detection-notification-visibility": false
 	}
 }
