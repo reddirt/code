@@ -17,6 +17,7 @@
 			"path": "aws-infrastructure"
 		},
 		{
+			"name": "code",
 			"path": "."
 		}
 	],
