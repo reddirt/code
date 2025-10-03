@@ -58,5 +58,13 @@ docker-compose -f docker-compose-local.yml run -rm liquibase # run/update liquib
 # check version
 docker-compose -f docker-compose-local.yml run --rm liquibase liquibase --version
 
+# --------------------------------
+# run liquibase update via ssh
+# --------------------------------
+sudo docker-compose run --rm liquibase update
+
+# If a changelog file gets edited, here's how to cleanup liquibase state:
+sudo docker-compose run --rm liquibase clearCheckSums
+
 ```
 
