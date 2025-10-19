@@ -1,0 +1,7 @@
+# short prompts
+
+"Trace the file upload flow step by step - from dialog to S3 storage. Include: file handling (temp/memory), when source_id generation happens, when metadata is added, and when files are saved to S3."
+
+"Walk through the CSV upload process: file → temp → S3 → processing → enhanced files → S3. When does source_id generation happen?"
+
+"Trace CSV upload flow: dialog → upload → stage executor → S3. Include source_id timing."
