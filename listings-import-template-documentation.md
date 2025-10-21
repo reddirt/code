@@ -21,8 +21,8 @@ This CSV template contains all the fields needed for importing listings data int
 ### Contact Information
 - **ci_name** (Optional): Contact person name
 - **ci_email** (Optional): Email address
-- **ci_local_phone** (Optional): Local phone number
-- **ci_international_phone** (Optional): International phone number
+- **ci_l_phone** (Optional): Local phone number
+- **ci_i_phone** (Optional): International phone number
 - **ci_website_url** (Optional): Main website URL
 - **ci_facebook_url** (Optional): Facebook page URL
 - **ci_instagram_url** (Optional): Instagram profile URL
@@ -94,6 +94,6 @@ listing_name,loc_address1,loc_city,loc_state,loc_country
 
 ### Complete Listing
 ```csv
-listing_name,listing_info_description,loc_address1,loc_city,loc_state,loc_country,loc_lat,loc_lng,ci_name,ci_email,ci_local_phone,ci_website_url
+listing_name,listing_info_description,loc_address1,loc_city,loc_state,loc_country,loc_lat,loc_lng,ci_name,ci_email,ci_l_phone,ci_website_url
 "Joe's Pizza","Best pizza in town with fresh ingredients","456 Oak Street","Springfield","IL","US","39.7817","-89.6501","Joe Smith","joe@joespizza.com","(217) 555-0123","https://www.joespizza.com"
 ```
