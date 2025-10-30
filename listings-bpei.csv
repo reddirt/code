@@ -1,5 +1,5 @@
 rec_num,dmo_id,source_id,imported_at,imported_by,category,sub_categories,attributes,name,google_place_id,description,address,address2,region,city,state,zip,country,lat,lng,contact_name,email,phone,phone_international,website,socials,images,opening_dates_hours,license_number,stars,amenities,video
-,,,,,stay,motels,"[""stay"",""motels""]",North Lake Beach Motel,ChIJzfWPwQ8DXksRRs9hlpafKcw,,7 Cape Road,addr2,Points East,North Lake,PE,C0A 2B0,CA,51.1801693,-115.5699113,contact Name,info@northlakebeachmotel.com,902-357-2228,+1 800-265-8989,https://northlakemotel.com,"{
+,,,,,stay,motels,"[""stay"",""motels""]",North Lake Beach Motel,ChIJzfWPwQ8DXksRRs9hlpafKcw,,7 Cape Road,,,North Lake,PE,C0A 2B0,CA,,,contact Name,info@northlakebeachmotel.com,902-357-2228,+1 800-265-8989,https://northlakemotel.com,"{
   ""facebook"": ""https://facebook.com/example"",
   ""instagram"": ""https://instagram.com/example"",
   ""twitter"": ""https://x.com/example"",
@@ -38,3 +38,4 @@ rec_num,dmo_id,source_id,imported_at,imported_by,category,sub_categories,attribu
     ""Sunday: Closed""
   ]
 }",234897,4.5,,no video
+,,,,,do,,,Harmony House,,"Harmony House was created in 2008, a reconstruction of the original building, Hunter River United Church, built over 100 years ago. The building was re-envisioned to become what it is today, a beautiful 140-seat music hall with a downstairs lounge and art gallery. It is an integral part of the Hunter River Community and a special part of the arts scene across PEI.",19814 PE-2,,,Hunter River,PE,C0A 1N0,CA,,,,,,,,,,,,,,
