@@ -1,0 +1,107 @@
+{
+  "categoryMapping": {},
+  "sourceToImportMapping": {
+    "zip": "zip",
+    "city": "city",
+    "email": "email",
+    "phone": "phone",
+    "images": "images2",
+    "street": "address",
+    "website": "website",
+    "facebook": "facebook",
+    "title.rendered": "name",
+    "content.rendered": "description",
+    "featured_image.src": "images"
+  },
+  "fieldTransforms": {
+    "ci_socials": [
+      {
+        "stringsToArray": {
+          "fields": [
+            "facebook"
+          ],
+          "includeStageValue": false
+        }
+      }
+    ],
+    "i_images": [
+      {
+        "wrapInArray": true
+      }
+    ],
+    "loc_country": [
+      {
+        "regexReplace": {
+          "pattern": ".*",
+          "replacement": "CA"
+        }
+      }
+    ]
+  }
+}
+
+i_images (["url1", "url2"]), ci_socials (["facebook_url"
+
+
+  "importToStageMapping": {
+    "images2": "images",
+    "opening_dates_hours": "images"
+  },
+  "fieldTransforms": {
+    "ci_socials": [
+      {
+        "stringsToArray": {
+          "fields": [
+            "facebook"
+          ],
+          "includeStageValue": false
+        }
+      }
+    ],
+    "i_images": [
+      {
+        "wrapInArray": true
+      },
+      {
+        "csvToArray": {
+          "delimiter": "|",
+          "trim": true
+        }
+      }
+    ],
+    "li_description": [
+      {
+        "stripHtml": {
+          "preserveLineBreaks": true
+        }
+      }
+    ],
+    "ci_email": [
+      {
+        "regexReplace": {
+          "pattern": "\\s",
+          "replacement": ""
+        }
+      }
+    ]
+  }
+}
+
+if my import creates a new field that is not in the defaults, and i want to do a transform on that field and then combine it with another new field and put the result in a stage field - do i need a new importToStageMapping, or do i just do a transform for the stage field and specify the new fields as the inputs?
+
+You only need the transform, not a new importToStageMapping entry.
+Here's how it works:
+Scenario: WordPress import creates facebook_url and instagram_url fields (not in defaults), and you want to combine them into ci_socials stage field.
+Solution:
+{  "fieldTransforms": {    "ci_socials": [      {        "stringsToArray": {          "fields": ["facebook_url", "instagram_url"],          "includeStageValue": false        }      }    ]  }}
+That's it. The transform:
+Reads the custom facebook_url and instagram_url fields directly from the import record
+Combines them into an array
+Stores the result in the ci_socials stage field
+Why you don't need importToStageMapping:
+importToStageMapping is only for 1:1 field mappings (import field → stage field)
+The transform layer bypasses that constraint and can read any import fields and write to any stage field
+The import record is passed directly to applyConfiguredFieldTransforms, which has access to all columns regardless of mapping
+The flow:
+Import Record (with facebook_url, instagram_url, ...)    ↓Stage Mapping (only applies to fields in importToStageMapping)    ↓Field Transforms (can read/write any fields, including custom ones)    ↓Stage Record (ci_socials now contains ["facebook_url_value", "instagram_url_value"])
+So custom fields don't need to be "registered" anywhere—just reference them by name in your stringsToArray fields array.
