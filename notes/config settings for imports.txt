@@ -1,3 +1,79 @@
+https://pointseastcoastaldrive.com/wp-json/geodir/v2/places
+
+{
+  "partialImports": true,
+  "wordpressConfig": {
+    "perPage": 4,
+    "maxPages": 1,
+    "timeoutMs": 30000,
+    "requestIntervalMs": 1000
+  }
+}
+
+{
+  "categoryMapping": {},
+  "fieldTransforms": {
+    "i_images": [
+      {
+        "wrapInArray": true
+      }
+    ],
+    "loc_state": [
+      {
+        "regexReplace": {
+          "pattern": ".*",
+          "replacement": "PE"
+        }
+      }
+    ],
+    "ci_socials": [
+      {
+        "stringsToObject": {
+          "trim": true,
+          "fields": [
+            "facebook",
+            "instagram",
+            "youtube",
+            "twitter",
+            "tiktok",
+            "pinterest",
+            "tripadvisor",
+            "yelp"
+          ],
+          "filterEmpty": true,
+          "includeStageValue": false
+        }
+      }
+    ],
+    "loc_country": [
+      {
+        "regexReplace": {
+          "pattern": ".*",
+          "replacement": "CA"
+        }
+      }
+    ]
+  },
+  "importToStageMapping": {
+    "facebook": "ci_socials"
+  },
+  "sourceToImportMapping": {
+    "zip": "zip",
+    "city": "city",
+    "email": "email",
+    "phone": "phone",
+    "images": "images2",
+    "street": "address",
+    "website": "website",
+    "facebook": "facebook",
+    "title.rendered": "name",
+    "content.rendered": "description",
+    "featured_image.src": "images"
+  }
+}
+
+----
+
 {
   "categoryMapping": {},
   "sourceToImportMapping": {
@@ -16,10 +92,10 @@
   "fieldTransforms": {
     "ci_socials": [
       {
-        "stringsToArray": {
-          "fields": [
-            "facebook"
-          ],
+        "stringsToObject": {
+          "fields": ["facebook", "instagram", "youtube", "twitter", "tiktok", "pinterest", "tripadvisor", "yelp"],
+          "filterEmpty": true,
+          "trim": true,
           "includeStageValue": false
         }
       }
@@ -36,12 +112,34 @@
           "replacement": "CA"
         }
       }
-    ]
+    ],
+    "loc_state": [
+      {
+        "regexReplace": {
+          "pattern": ".*",
+          "replacement": "PE"
+        }
+      }
+    ]   
+  },
+  "importToStageMapping": {
+    "facebook": "ci_socials"
   }
 }
 
-i_images (["url1", "url2"]), ci_socials (["facebook_url"
+Expected:
 
+i_images
+["url1", "url2"]
+
+ci_socials
+{
+  "facebook": "https://www.facebook.com/example",
+  "instagram": "https://www.instagram.com/example",
+  "twitter": "https://twitter.com/example",
+  "youtube": "https://www.youtube.com/example",
+  // ... other platforms
+}
 
   "importToStageMapping": {
     "images2": "images",

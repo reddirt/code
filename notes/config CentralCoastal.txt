@@ -1,0 +1,7 @@
+https://pointseastcoastaldrive.com/wp-json/geodir/v2/places
+
+curl -s "https://centralcoastalpei.com/wp-json/wp/v2/types" | jq .
+
+https://centralcoastalpei.com/wp-json/wp/v2/members?per_page=3&page=1
+
+

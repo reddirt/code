@@ -1,0 +1,66 @@
+https://pointseastcoastaldrive.com/wp-json/geodir/v2/places
+
+{
+  "categoryMapping": {},
+  "fieldTransforms": {
+    "images":
+    {
+      "csvToArray": true
+    },
+    "locationState": [
+      {
+        "regexReplace": {
+          "pattern": ".*",
+          "replacement": "PE"
+        }
+      }
+    ],
+
+    "contactInfoSocials": [
+      {
+        "stringsToObject": {
+          "fields": [
+            "facebook",
+            "instagram",
+            "youtube",
+            "twitter",
+            "tiktok",
+            "pinterest",
+            "tripadvisor",
+            "yelp"
+          ],
+          "filterEmpty": true,
+          "includeStageValue": false,
+          "trim": true
+        }
+      }
+    ],
+    "locationCountry": [
+      {
+        "regexReplace": {
+          "pattern": ".*",
+          "replacement": "CA"
+        }
+      }
+    ]
+  },
+  "importToStageMapping": {
+    "facebook": "contactInfoSocials",
+    "images": "images"
+  },
+  "sourceToImportMapping": {
+    "zip": "zip",
+    "city": "city",
+    "email": "email",
+    "phone": "phone",
+    "images": "images2",
+    "street": "address",
+    "website": "website",
+    "facebook": "facebook",
+    "latitude": "lat",
+    "longitude": "lng",
+    "content.raw": "description",
+    "title.rendered": "name",
+    "featured_image.src": "images"
+  }
+}
