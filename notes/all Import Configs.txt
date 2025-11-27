@@ -1,0 +1,199 @@
+# Points East Coastal Drive
+
+https://pointseastcoastaldrive.com/wp-json/geodir/v2/places
+
+WordPress
+
+{
+  "partialImports": true,
+  "wordpressConfig": {
+    "perPage": 3,
+    "maxPages": 1,
+    "timeoutMs": 30000,
+    "requestIntervalMs": 1000
+  }
+}
+
+
+{
+  "importToStageMapping": {
+    "facebook": "socials",
+    "excerpt": "attributes",
+    "address": "locationAddress1",
+    "city": "locationCity",
+    "latitude": "locationLat",
+    "longitude": "locationLng",
+    "phone": "contactInfoPhoneLocal",
+    "email": "contactInfoEmail",
+    "website": "contactInfoWebsiteUrl",
+    "image_url": "images"
+  },
+  "importToStageMapping": {
+    "description": "listingDescription",
+    "featured_image": "images"
+  },
+  "fieldTransforms": {
+    "listingDescription": [
+      {
+        "stripHtml": {
+          "removeTags": true,
+          "decodeEntities": true
+        }
+      },
+      {
+        "regexReplace": {
+          "pattern": "\\[caption[^\\]]*\\][^\\[]*\\[/caption\\]",
+          "replacement": "",
+          "flags": "gi"
+        }
+      }
+    ],
+    "images": [
+      {
+        "stringsToArray": {
+          "fields": ["description", "other_image_field"],
+          "includeStageValue": false
+        }
+      },
+      {
+        "regexMatch": {
+          "pattern": "<img[^>]+src=\"([^\"]+)\"",
+          "captureGroup": 1,
+          "returnAllMatches": true,
+          "joinMatches": ",",
+          "applyToEach": true
+        }
+      },
+      {
+        "csvToArray": {
+          "delimiter": ",",
+          "trim": true,
+          "filterEmpty": true,
+          "dedupe": true
+        }
+      }
+    ]
+  }
+  ---
+  "categoryMapping": {},
+  "fieldTransforms": {
+    "images": [
+      {
+        "stringsToArray": {
+          "fields": ["thumbnail_image", "featured_image", "images_in_content"],
+          "includeStageValue": false
+        }
+      },
+      {
+        "csvToArray": {
+          "delimiter": ",",
+          "trim": true,
+          "filterEmpty": true,
+          "dedupe": true
+        }
+      }
+    ],
+    "locationState": [
+      {
+        "regexReplace": {
+          "pattern": ".*",
+          "replacement": "PE"
+        }
+      }
+    ],
+    "locationCountry": [
+      {
+        "regexReplace": {
+          "pattern": ".*",
+          "replacement": "CA"
+        }
+      }
+    ],
+    "socials": [
+      {
+        "stringsToObject": {
+          "trim": true,
+          "fields": [
+            "facebook",
+            "instagram",
+            "youtube",
+            "twitter",
+            "tiktok",
+            "pinterest",
+            "tripadvisor",
+            "yelp"
+          ],
+          "filterEmpty": true,
+          "includeStageValue": false
+        }
+      }
+    ],
+  },
+  "sourceToImportMapping": {
+    "zip": "zip",
+    "city": "city",
+    "email": "email",
+    "phone": "phone",
+    "street": "address",
+    "website": "website",
+    "facebook": "facebook",
+    "latitude": "lat",
+    "longitude": "lng",
+    "content.raw": "description",
+    "title.rendered": "name",
+    "featured_image.src": "featured_image",
+    "featured_image.thumbnail": "thumbnail"
+  }
+}
+
+
+# Central Coastal PEI
+
+https://centralcoastalpei.com/wp-json/wp/v2/members
+
+WordPress
+
+{
+  "encoding": "utf-8",
+  "delimiter": ",",
+  "apiHeaders": {
+    "Accept": "application/json",
+    "Cookie": "cf_clearance=_LbVkWVSxDLnEKmMiSBSEUeJOjUg45kcdaTzV4B8hkw-1762799979-1.2.1.1-jUy_Uq6Qe5n3YFZiZbkm1cjtr8fRAjkMw7UWMSRLPeWxWaj51eEnX3ONPYQG269HSt_xmqMWqQeqta5WI2n8YGvOqbw2bb0cStaNKRMEMULbXv8zy6a9OpPWxVTiWBzvW8GAUv2pf26vhv9Dn7ongTuujD60FgoT98PkxmfZot2ZcTcWvnv.RhxJOUMlTrXGr0rK4nD6TvPlpPfMi0cKCYdwiuc4c..KeR4BbqTvjm0; __cf_bm=58qLSi4iydDff6hgZ2qUr634g6rqdrDJOvyPAyFNMF4-1762804472-1.0.1.1-fe7Vn2kGnJSzw42m_Nw21zCzSRAZUpplb1znHLJhq1FxqUs3ELj63N7w4oP7xr0_BwwQ8z0oljKSvLTN1dhOSMKnz9t3YDVVGyOUPXbI15w",
+    "Referer": "https://centralcoastalpei.com/",
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.5993.90 Safari/537.36"
+  },
+  "fileFormat": "csv",
+  "matchThreshold": 0.7,
+  "partialImports": true,
+  "wordpressConfig": {
+    "perPage": 20,
+    "maxPages": 2,
+    "timeoutMs": 30000,
+    "requestIntervalMs": 1000
+  },
+  "overwriteWithEmpty": false
+}
+
+{
+  "sourceToImportMapping": {
+    "link": "source_id",
+    "modified": "modified_date",
+    "class_list": "class_list",
+    "title.rendered": "title.rendered",
+    "content.rendered": "content.rendered",
+    "yoast_head_json.og_url": "url",
+    "yoast_head_json.og_image": "yoast_head_json.og_image",
+    "yoast_head_json.canonical": "url2",
+    "yoast_head_json.og_description": "description"
+  }
+}
+
+# Booking PEI
+
+CSV
+
+{
+  "partialImports": true,
+  "overwriteWithEmpty": true
+}
+

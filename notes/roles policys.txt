@@ -1,0 +1,60 @@
+Here’s the clean separation.
+Build and deploy (CI/CD to EC2)
+Who/what:
+GitHub Actions runner: uses Configure AWS Credentials to upload build artifacts to S3 (-api, -app).
+DMZ → EC2 SSH: no AWS creds passed; deploy runs sudo -E /bootstrap/update.sh on the EC2s.
+
+EC2 instance roles (ASG-attached):
+API and App instances both have s3ReadOnly so they can read:
+-api-config / -app-config (scripts/config)
+-api / -app (zip artifacts)
+
+Net: CI needs AWS creds to write to S3; 
+EC2 deploys use the instance role to read from S3.
+
+Runtime (services talking to S3 and each other)
+api.service (Express on API EC2):
+Current: s3ReadOnly only (read S3).
+To support pipeline writes: attach apiS3Policy (write on -images and -ingest) in addition to s3ReadOnly.
+
+app.service 
+(Next.js on App EC2):
+Typically no direct S3 writes. Reads config from env/files; serves web; hits api.service over HTTPS.
+Static assets/images should be read via CloudFront/S3 (public/OAI), not by the server at runtime.
+
+Buckets and intended access
+-api-config, -app-config: read by EC2 instances (instance role, s3ReadOnly) and updated from your repo via deployBootstrapScripts.sh.
+-api, -app: build artifacts; written by CI, read by EC2 (s3ReadOnly).
+-images, -ingest: pipeline data; api.service needs write here → apiS3Policy.
+CloudFront distribution reads -images via OAI (no instance role involved).
+IAM objects
+Managed policies (PolicyStack):
+s3ReadOnly: read access for config/artifacts
+apiS3Policy: write on -images and -ingest
+Roles:
+ASG instance profiles (one per stack) get the policies you attach in ApiStack/AppStack.
+If you want pipeline writes enabled now, I’ll reattach apiS3Policy to the API instance role (keeping s3ReadOnly).
+
+
+
+CI/CD vs instance:
+CI/CD runs on GitHub runners, not on your EC2. It uses a GitHub IAM user to write artifacts to S3, then SSHes to the EC2 and runs update.sh.
+The EC2 instance runs the services. It has an instance role (instance profile) that carries IAM policies.
+Users on the EC2:
+ec2-user: SSH/ops user; used by update.sh execution.
+www-data: service user; api.service and app.service run under this user (see config.sh/systemd). OS users don’t carry AWS permissions themselves.
+How permissions flow:
+IAM policies (e.g., s3ReadOnly, apiS3Policy) attach to the EC2 instance role (via the ASG). Any process on the instance (ec2-user shell, www-data services, Node SDK) can use those permissions via the instance metadata service.
+CI’s IAM user is separate and only used to upload artifacts to S3 (and not used on the instance).
+Current setup:
+API instance role: s3ReadOnly + apiS3Policy (read config/artifacts; write -images, r/w -ingest).
+App instance role: s3ReadOnly (read config/artifacts).
+Services run as www-data; they inherit the instance role permissions automatically.
+
+
+so you don't assign roles/policys to users? just to machines?
+
+Short answer: In our setup, policies attach to IAM roles, not Linux users.
+EC2: Policies attach to the instance role (instance profile). Any process on that machine (ec2-user shell, www-data services) gets those permissions via the instance metadata service.
+CI/CD: Uses a separate IAM user to upload artifacts to S3. Not tied to OS users on EC2.
+FYI: AWS does allow attaching policies to IAM users or groups, but that’s unrelated to Linux users. We’re intentionally using roles for machines/services and an IAM user only for CI.

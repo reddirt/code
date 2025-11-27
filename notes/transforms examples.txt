@@ -1,0 +1,35 @@
+
+# Examples
+# This extracts the price value from a string like "Price: $29.99" → "29.99".
+Features
+Pattern matching: matches a regex pattern against the field value
+Capture groups: specify which capture group to return (0 = full match, 1+ = numbered groups)
+Flags: supports regex flags (e.g., i for case-insensitive, g for global)
+Array handling: applyToEach option to process each array element or combine them first
+No-match behavior: returnNullIfNoMatch to return null or keep the original value
+{
+  "fieldTransforms": {
+    "someField": {
+      "regexMatch": {
+        "pattern": "Price: \\$([0-9.]+)",
+        "captureGroup": 1,
+        "returnNullIfNoMatch": true
+      }
+    }
+  }
+}
+
+{
+  "stringsToObject": {
+    "fields": ["facebook_url", "instagram_url", "twitter_url"],
+    "includeStageValue": false,
+    "filterEmpty": true,
+    "trim": true
+  }
+}
+Output
+{
+  "facebook_url": "https://facebook.com/example",
+  "instagram_url": "https://instagram.com/example",
+  "twitter_url": "https://twitter.com/example"
+}
